@@ -1,0 +1,526 @@
+/* ============================================
+   Mein Urlaub — Riviera Luxe
+   Sommer · Wärme · Eleganz
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+:root {
+    /* === Riviera Ocean === */
+    --urlaub-primary:       #1B6B7B;
+    --urlaub-primary-dark:  #134E5B;
+    --urlaub-primary-light: #4A9AAD;
+
+    /* === Champagner Gold (Luxus-Akzent) === */
+    --urlaub-gold:          #BF9B5C;
+    --urlaub-gold-light:    #DFC08A;
+    --urlaub-gold-pale:     #F7F0E3;
+
+    /* === Sunset Coral === */
+    --urlaub-accent:        #D97B5E;
+    --urlaub-accent-light:  #EDAA8E;
+
+    /* === Sonnen-Gelb === */
+    --urlaub-sun:           #F2C46D;
+
+    /* === Sand & Creme === */
+    --urlaub-sand:          #FDFAF5;
+    --urlaub-sand-warm:     #F5ECD7;
+    --urlaub-sand-dark:     #E4D3B2;
+
+    /* === Ozean-Tiefen === */
+    --urlaub-ocean-dark:    #1A3D45;
+    --urlaub-ocean:         #2B7A8E;
+
+    /* === Text === */
+    --urlaub-text:          #2C3830;
+    --urlaub-text-muted:    #6B7E75;
+
+    /* === Gradients === */
+    --gradient-hero:    linear-gradient(150deg, #1A3D45 0%, #1B6B7B 45%, #2B7A8E 72%, #BF9B5C 100%);
+    --gradient-sunset:  linear-gradient(135deg, #D97B5E 0%, #EDAA8E 65%, #F2C46D 100%);
+    --gradient-ocean:   linear-gradient(135deg, #1B6B7B 0%, #1A3D45 100%);
+    --gradient-sand:    linear-gradient(135deg, #FDFAF5 0%, #F5ECD7 100%);
+    --gradient-gold:    linear-gradient(135deg, #BF9B5C 0%, #DFC08A 100%);
+    --gradient-luxury:  linear-gradient(135deg, #1A3D45 0%, #1B6B7B 55%, #BF9B5C 100%);
+
+    /* === Schatten === */
+    --shadow-sm:    0 2px 12px rgba(26, 61, 69, 0.07);
+    --shadow-md:    0 8px 32px rgba(26, 61, 69, 0.11);
+    --shadow-lg:    0 24px 64px rgba(26, 61, 69, 0.16);
+    --shadow-gold:  0 8px 32px rgba(191, 155, 92, 0.22);
+}
+
+/* ── Typographie ────────────────────────────── */
+body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3,
+.display-1, .display-2, .display-3, .display-4, .display-5 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.015em;
+}
+
+/* ── Light Mode Body ────────────────────────── */
+[data-bs-theme="light"] body {
+    background-color: var(--urlaub-sand);
+    background-image:
+        radial-gradient(ellipse at 15% 8%,  rgba(27,107,123,0.05)  0%, transparent 48%),
+        radial-gradient(ellipse at 85% 85%, rgba(191,155,92,0.06)   0%, transparent 48%);
+    min-height: 100vh;
+    color: var(--urlaub-text);
+}
+
+/* ── Dark Mode Body ─────────────────────────── */
+[data-bs-theme="dark"] body {
+    background-color: #0D1E24;
+    background-image:
+        radial-gradient(ellipse at 15% 8%,  rgba(27,107,123,0.18) 0%, transparent 48%),
+        radial-gradient(ellipse at 85% 85%, rgba(191,155,92,0.08) 0%, transparent 48%);
+    min-height: 100vh;
+}
+
+/* ── Buttons ────────────────────────────────── */
+.btn-primary {
+    background: var(--gradient-ocean);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    box-shadow: 0 4px 16px rgba(27,107,123,0.30);
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #134E5B 0%, #1B6B7B 100%);
+    box-shadow: 0 6px 22px rgba(27,107,123,0.42);
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    color: var(--urlaub-primary);
+    border: 1.5px solid var(--urlaub-primary);
+    border-radius: 50px;
+    padding: 0.5rem 1.6rem;
+    font-weight: 500;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-outline-primary:hover {
+    background: var(--gradient-ocean);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 16px rgba(27,107,123,0.30);
+    transform: translateY(-1px);
+}
+
+/* ── Nav Pills ──────────────────────────────── */
+.nav-pills .nav-link {
+    border-radius: 50px;
+    padding: 0.5rem 1.3rem;
+    color: var(--urlaub-primary);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.nav-pills .nav-link.active {
+    background: var(--gradient-ocean) !important;
+    box-shadow: 0 4px 16px rgba(27,107,123,0.30);
+}
+.nav-pills .nav-link:hover:not(.active) {
+    background: rgba(27,107,123,0.08);
+}
+
+/* ── Nav Tabs ───────────────────────────────── */
+.nav-tabs {
+    border-bottom: 1.5px solid var(--urlaub-sand-dark);
+    gap: 2px;
+}
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px;
+    color: var(--urlaub-text-muted);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 0.65rem 1.1rem;
+    background: transparent !important;
+}
+.nav-tabs .nav-link:hover {
+    color: var(--urlaub-primary);
+    border-bottom-color: var(--urlaub-gold-light);
+}
+.nav-tabs .nav-link.active {
+    color: var(--urlaub-primary) !important;
+    border-bottom: 2px solid var(--urlaub-gold) !important;
+    font-weight: 600;
+}
+[data-bs-theme="dark"] .nav-tabs .nav-link.active {
+    color: var(--urlaub-gold-light) !important;
+    border-bottom-color: var(--urlaub-gold) !important;
+}
+
+/* ── Modals ─────────────────────────────────── */
+.modal-content {
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+.modal-header.bg-primary { background: var(--gradient-luxury) !important; }
+.modal-header.bg-danger  { background: var(--gradient-sunset) !important; }
+
+/* ── Badges ─────────────────────────────────── */
+.badge {
+    border-radius: 50px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 0.35em 0.75em;
+}
+.badge.bg-primary   { background: var(--gradient-ocean) !important; }
+.badge.bg-warning   { background: var(--gradient-gold) !important; color: white !important; }
+.badge.bg-info      { background: linear-gradient(135deg, var(--urlaub-accent), var(--urlaub-accent-light)) !important; color: white !important; }
+.badge.bg-success   { background: linear-gradient(135deg, var(--urlaub-ocean), var(--urlaub-ocean-dark)) !important; }
+.badge.bg-danger    { background: linear-gradient(135deg, #E85D4A, #C0392B) !important; }
+
+/* ── Sterne & Preise ────────────────────────── */
+.sterne { color: var(--urlaub-sun); }
+.preis {
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--urlaub-primary-dark);
+    letter-spacing: -0.02em;
+}
+[data-bs-theme="dark"] .preis { color: var(--urlaub-gold-light); }
+
+/* ── Cards ──────────────────────────────────── */
+.card {
+    border: 1px solid rgba(191,155,92,0.14);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: var(--shadow-sm);
+    background: #ffffff;
+}
+[data-bs-theme="dark"] .card {
+    background: rgba(27,62,69,0.55);
+    border-color: rgba(191,155,92,0.09);
+}
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-gold);
+    border-color: rgba(191,155,92,0.32);
+}
+[data-bs-theme="dark"] .card:hover {
+    box-shadow: 0 14px 44px rgba(191,155,92,0.16);
+}
+
+/* ── Table Hover ────────────────────────────── */
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(191,155,92,0.07);
+}
+
+/* ── Filter Card ────────────────────────────── */
+.filter-card {
+    border-radius: 20px;
+    border: 1px solid rgba(191,155,92,0.16);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+[data-bs-theme="dark"] .filter-card {
+    background: rgba(27,62,69,0.45);
+    border-color: rgba(191,155,92,0.10);
+}
+
+/* ── Inputs ─────────────────────────────────── */
+.form-control,
+.form-select {
+    border-radius: 12px;
+    border: 1.5px solid rgba(191,155,92,0.22);
+    padding: 0.55rem 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--urlaub-primary);
+    box-shadow: 0 0 0 3px rgba(27,107,123,0.10);
+}
+.input-group-text {
+    border-radius: 12px 0 0 12px;
+    border: 1.5px solid rgba(191,155,92,0.22);
+    border-right: none;
+    background: var(--urlaub-sand-warm);
+    color: var(--urlaub-primary);
+}
+.input-group .form-control {
+    border-radius: 0 12px 12px 0;
+}
+
+/* ── Admin Header ───────────────────────────── */
+.admin-header {
+    background: var(--gradient-luxury);
+    color: white;
+    padding: 28px 0;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Stat-Karten ────────────────────────────── */
+.stat-card {
+    border: 1px solid rgba(191,155,92,0.12) !important;
+    border-radius: 20px;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.stat-card:hover { transform: translateY(-4px); }
+.stat-zahl {
+    font-size: 2.6rem;
+    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.03em;
+}
+
+.stat-bg-hotels     { background: var(--gradient-ocean)                              !important; color: white; }
+.stat-bg-fluege     { background: var(--gradient-sunset)                             !important; color: white; }
+.stat-bg-mietwagen  { background: linear-gradient(135deg, #2B7A8E 0%, #1A3D45 100%) !important; color: white; }
+.stat-bg-bewertungen{ background: var(--gradient-gold)                               !important; color: white; }
+
+/* ── Platzhalter-Bilder ─────────────────────── */
+.platzhalter-bild {
+    height: 200px;
+    background: var(--gradient-sunset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+/* ── Empty States ───────────────────────────── */
+.empty-state          { padding: 60px 20px; text-align: center; }
+.empty-state i        { font-size: 4rem; opacity: 0.3; color: var(--urlaub-gold); }
+
+/* ── Sortierbare Spaltenköpfe ───────────────── */
+.sortierbar            { cursor: pointer; user-select: none; white-space: nowrap; }
+.sortierbar:hover      { background-color: rgba(255,255,255,0.12); }
+.sort-pfeil            { opacity: 0.5; font-size: 0.8em; margin-left: 4px; }
+.sort-aktiv            { opacity: 1; color: var(--urlaub-sun); }
+
+/* ── Action Buttons ─────────────────────────── */
+.btn-aktion          { padding: 0.25rem 0.55rem; font-size: 0.85rem; border-radius: 8px; }
+.tabelle-actions     { width: 150px; }
+
+/* ── Status-Indikator ───────────────────────── */
+.status-punkt {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.status-online  { background-color: #2ECC89; box-shadow: 0 0 8px rgba(46,204,137,0.5); }
+.status-offline { background-color: #E85D4A; box-shadow: 0 0 8px rgba(232,93,74,0.5); }
+.status-pruefen { background-color: var(--urlaub-sun); }
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+.status-pruefen { animation: pulse 1.2s ease-in-out infinite; }
+
+/* ── Flug-Tabelle ───────────────────────────── */
+.table thead tr th:first-child { border-top-left-radius: 0; }
+.table thead tr th:last-child  { border-top-right-radius: 0; }
+.table thead tr                { border-bottom: none; }
+
+/* saubere Tabelle: nur horizontale Trennlinie, kein Gitter, kein Wrapping */
+.table-clean th,
+.table-clean td {
+    padding: 0.85rem 1.1rem;
+    vertical-align: middle;
+    border: none;
+    border-bottom: 1px solid rgba(191,155,92,0.12);
+    white-space: nowrap;
+}
+.table-clean thead th {
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    border-bottom: none;
+}
+.table-clean tbody tr:last-child td { border-bottom: none; }
+.table-clean tbody tr:hover td      { background: rgba(191,155,92,0.06); }
+/* Preis in der Tabelle kleiner als Karten-Preis */
+.table-clean .preis {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* ── Offcanvas User-Menü ─────────────────────── */
+.offcanvas-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    transition: background 0.15s ease;
+    border-bottom: 1px solid rgba(191,155,92,0.10);
+    cursor: pointer;
+    color: var(--urlaub-text);
+    text-decoration: none;
+}
+.offcanvas-nav-item:hover { background: rgba(191,155,92,0.07); }
+[data-bs-theme="dark"] .offcanvas-nav-item { color: #e9ecef; }
+[data-bs-theme="dark"] .offcanvas-nav-item:hover { background: rgba(191,155,92,0.10); }
+
+.offcanvas-nav-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+.offcanvas-user-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    border-bottom: 1px solid rgba(191,155,92,0.12);
+}
+.offcanvas-avatar {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    background: var(--gradient-luxury);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(27,107,123,0.3);
+}
+.burger-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50px;
+    color: white;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.burger-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* ── Favoriten-Button auf Karten ────────────── */
+.fav-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    z-index: 5;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.90);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #bbb;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+    padding: 0;
+    cursor: pointer;
+}
+.fav-btn:hover              { color: var(--urlaub-accent); transform: scale(1.12); background: white; }
+.fav-btn.aktiv              { color: var(--urlaub-accent); background: white; }
+.fav-btn.aktiv i::before    { content: "\f415"; } /* bi-heart-fill */
+
+/* ── Flug-Karten ────────────────────────────── */
+.flug-dauer-badge {
+    background: var(--gradient-ocean);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+/* ── Theme Toggle Float Button ──────────────── */
+.theme-toggle-float {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 46px; height: 46px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid rgba(191,155,92,0.25);
+    box-shadow: var(--shadow-sm);
+    color: var(--urlaub-primary);
+    transition: all 0.2s ease;
+}
+.theme-toggle-float:hover {
+    box-shadow: var(--shadow-gold);
+    border-color: var(--urlaub-gold);
+    transform: rotate(15deg);
+}
+
+/* ── Top-Hotels-Liste ───────────────────────── */
+.top-hotel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.top-hotel-info          { flex: 1; min-width: 0; }
+.top-hotel-info strong   { display: block; }
+.top-hotel-badge         { flex-shrink: 0; white-space: nowrap; }
+
+/* ── Navbar ─────────────────────────────────── */
+.navbar-urlaub {
+    background: var(--gradient-luxury) !important;
+    box-shadow: 0 2px 24px rgba(26,61,69,0.28);
+}
+
+/* ── Sterne-Filter Buttons ──────────────────── */
+.sterne-filter-btn {
+    background: white;
+    border: 1.5px solid rgba(191,155,92,0.22);
+    padding: 5px 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: var(--urlaub-text);
+}
+.sterne-filter-btn.aktiv {
+    background: var(--gradient-ocean);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(27,107,123,0.28);
+}
+.sterne-filter-btn:hover:not(.aktiv) {
+    border-color: var(--urlaub-primary);
+    color: var(--urlaub-primary);
+}
+[data-bs-theme="dark"] .sterne-filter-btn {
+    background: rgba(27,62,69,0.5);
+    color: #e9ecef;
+    border-color: rgba(191,155,92,0.16);
+}
+
+/* ── Gold-Trennlinie ────────────────────────── */
+.luxury-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--urlaub-gold), transparent);
+    opacity: 0.35;
+    margin: 1.5rem 0;
+}

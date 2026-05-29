@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Urlaub - Anmelden</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="shared.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(27,107,123,0.45) 0%, transparent 52%),
+                radial-gradient(ellipse at 80% 70%, rgba(191,155,92,0.32) 0%, transparent 50%),
+                radial-gradient(ellipse at 55% 5%,  rgba(217,123,94,0.28) 0%, transparent 40%),
+                linear-gradient(150deg, #1A3D45 0%, #1B6B7B 52%, #2B4A52 100%);
+            background-attachment: fixed;
+            padding: 20px;
+        }
+        .login-container {
+            max-width: 460px;
+            width: 100%;
+        }
+        .login-card {
+            border-radius: 28px;
+            padding: 48px 40px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.28), 0 0 0 1px rgba(191,155,92,0.18);
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(20px);
+        }
+        .login-icon-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.1rem;
+        }
+        .login-icon {
+            width: 76px;
+            height: 76px;
+            border-radius: 22px;
+            background: var(--gradient-luxury);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 12px 32px rgba(27,107,123,0.40), 0 0 0 1px rgba(191,155,92,0.3);
+        }
+        .login-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 700;
+            font-size: 2.2rem;
+            letter-spacing: -0.025em;
+            color: var(--urlaub-ocean-dark);
+            margin-bottom: 0.15rem;
+        }
+        .demo-card {
+            background: linear-gradient(135deg, #FDFAF5, #F5ECD7);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 20px;
+            border: 1px solid rgba(191,155,92,0.22);
+        }
+        [data-bs-theme="dark"] .demo-card {
+            background: rgba(27,62,69,0.5);
+            border-color: rgba(191,155,92,0.15);
+        }
+        .demo-user-row {
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: 10px;
+            transition: background 0.15s;
+        }
+        .demo-user-row:hover {
+            background: rgba(27,107,123,0.08);
+        }
+        .gast-divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: var(--urlaub-text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .gast-divider::before, .gast-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(191,155,92,0.35), transparent);
+            margin: 0 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="card login-card">
+        <div class="text-center mb-4">
+            <div class="login-icon-wrap">
+                <div class="login-icon"><i class="bi bi-suitcase-lg"></i></div>
+            </div>
+            <h1 class="login-title">Mein Urlaub</h1>
+            <p class="text-muted mt-1 mb-0" style="font-size:0.95rem">Willkommen</p>
+        </div>
+
+        <!-- Tab-Umschalter -->
+        <div class="d-flex mb-4 gap-2">
+            <button class="btn btn-sm flex-fill btn-primary" id="tab-anmelden" onclick="zeigeLogin()">
+                <i class="bi bi-box-arrow-in-right"></i> Anmelden
+            </button>
+            <button class="btn btn-sm flex-fill btn-outline-secondary" id="tab-registrieren" onclick="zeigeRegister()">
+                <i class="bi bi-person-plus"></i> Registrieren
+            </button>
+        </div>
+
+        <!-- ANMELDEN -->
+        <div id="section-login">
+            <form id="login-form" onsubmit="anmelden(event)">
+                <div class="mb-3">
+                    <label class="form-label">Benutzername</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" class="form-control" id="username" required autocomplete="username">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Passwort</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control" id="password" required autocomplete="current-password">
+                    </div>
+                </div>
+                <div id="login-fehler" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-box-arrow-in-right"></i> Anmelden
+                </button>
+            </form>
+
+            <div class="gast-divider">oder</div>
+
+            <button class="btn btn-outline-primary w-100" onclick="alsGastFortfahren()">
+                <i class="bi bi-person-walking"></i> Als Gast fortfahren
+            </button>
+            <p class="text-center text-muted small mt-2 mb-0">
+                Als Gast kannst du alle Angebote ansehen, aber keine Bewertungen schreiben.
+            </p>
+        </div>
+
+        <!-- REGISTRIEREN -->
+        <div id="section-register" class="d-none">
+            <div id="register-erstadmin" class="alert alert-success mb-3 d-none">
+                <i class="bi bi-shield-check me-2"></i>
+                <strong>Erstes Konto!</strong> Dieses Konto erhält automatisch Admin-Rechte.
+            </div>
+            <form id="register-form" onsubmit="registrieren(event)">
+                <div class="mb-3">
+                    <label class="form-label">Anzeigename *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                        <input type="text" class="form-control" id="reg-name" placeholder="z. B. Max Mustermann" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Benutzername *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-at"></i></span>
+                        <input type="text" class="form-control" id="reg-username" placeholder="Nur a–z, 0–9, _" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Passwort * <small class="text-muted">(mind. 4 Zeichen)</small></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control" id="reg-password" required minlength="4">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Passwort wiederholen *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-check"></i></span>
+                        <input type="password" class="form-control" id="reg-password2" required minlength="4">
+                    </div>
+                </div>
+                <div id="register-fehler" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-person-plus"></i> Konto erstellen
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <p class="text-center mt-3 small" style="color:rgba(255,255,255,0.6); letter-spacing:0.06em; text-transform:uppercase; font-size:0.75rem !important">
+        DHBW Heilbronn &nbsp;·&nbsp; Verteilte Systeme &nbsp;·&nbsp; Gruppenarbeit
+    </p>
+    <div class="d-flex justify-content-center gap-2 mt-2">
+        <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#modal-impressum"
+                style="color:rgba(255,255,255,0.65); border:1px solid rgba(255,255,255,0.22); border-radius:20px; font-size:0.78rem;">
+            <i class="bi bi-file-text"></i> Impressum
+        </button>
+        <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ueber-uns"
+                style="color:rgba(255,255,255,0.65); border:1px solid rgba(255,255,255,0.22); border-radius:20px; font-size:0.78rem;">
+            <i class="bi bi-people"></i> Über uns
+        </button>
+    </div>
+</div>
+
+<!-- IMPRESSUM MODAL -->
+<div class="modal fade" id="modal-impressum" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-luxury); color: white;">
+                <h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Impressum</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-info mb-4">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <strong>Hinweis:</strong> Dies ist ein Universitätsprojekt — kein echtes Impressum erforderlich.
+                </div>
+                <h6 class="fw-bold">Mein Urlaub — Studienprojekt</h6>
+                <p class="text-muted mb-3">
+                    Diese Webanwendung ist ein nicht-kommerzielles Übungs- und Demonstrationsprojekt,
+                    das im Rahmen des Studiums an der <strong>DHBW Heilbronn</strong> entstanden ist.
+                </p>
+                <p class="text-muted mb-3">
+                    Die dargestellten Hotels, Flüge, Mietwagen und Bewertungen sind fiktive Beispieldaten
+                    ohne realen Bezug. Es findet keine echte Buchung oder Transaktion statt.
+                </p>
+                <hr>
+                <small class="text-muted">
+                    Da es sich um ein studentisches Lehrprojekt handelt, besteht nach §5 TMG
+                    keine Impressumspflicht. Eine Haftung für die Inhalte wird ausgeschlossen.
+                </small>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ÜBER UNS MODAL -->
+<div class="modal fade" id="modal-ueber-uns" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--gradient-luxury); color: white;">
+                <h5 class="modal-title"><i class="bi bi-people me-2"></i>Über uns</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <div style="width:72px;height:72px;background:var(--gradient-luxury);border-radius:20px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                        <i class="bi bi-umbrella-fill" style="font-size:2rem;color:white;"></i>
+                    </div>
+                    <h4 class="fw-bold" style="font-family:'Cormorant Garamond',serif;">Mein Urlaub</h4>
+                    <p class="text-muted">Urlaubsbuchungs-Demo · DHBW Heilbronn</p>
+                </div>
+                <hr>
+                <div class="row g-4 mt-1">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold"><i class="bi bi-mortarboard text-primary me-2"></i>Das Projekt</h6>
+                        <p class="text-muted small">
+                            <strong>Mein Urlaub</strong> ist ein Full-Stack-Demo-Projekt für das Modul
+                            <em>Verteilte Systeme</em> an der DHBW Heilbronn. Ziel war die Entwicklung
+                            einer modernen Microservice-Architektur mit eigenständigen Backend-Services
+                            und einem gemeinsamen Frontend.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold"><i class="bi bi-stack text-primary me-2"></i>Technologien</h6>
+                        <ul class="list-unstyled small text-muted">
+                            <li><i class="bi bi-check2 text-success me-1"></i>Frontend: HTML5, Bootstrap 5, Vanilla JS</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Backend: Node.js / Express</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Datenbank: MongoDB</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>4 unabhängige Microservices</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold"><i class="bi bi-hdd-network text-primary me-2"></i>Microservices</h6>
+                        <ul class="list-unstyled small text-muted">
+                            <li><i class="bi bi-dot"></i>Bewertungs-Service (Port 3001)</li>
+                            <li><i class="bi bi-dot"></i>Hotel-Service (Port 3002)</li>
+                            <li><i class="bi bi-dot"></i>Flug-Service (Port 3003)</li>
+                            <li><i class="bi bi-dot"></i>Mietwagen-Service (Port 3004)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold"><i class="bi bi-stars text-primary me-2"></i>Hauptfunktionen</h6>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li><i class="bi bi-check2 text-success me-1"></i>Registrierung &amp; Login (nutzerspezifisch)</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Favoriten für Hotels &amp; Mietwagen</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Bildergalerie mit Bootstrap-Karussell</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Bewertungssystem (schreiben &amp; anzeigen)</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Dark / Light Mode (persistent)</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i>Server-Status mit Auto-Refresh (Admin)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold"><i class="bi bi-person-circle text-primary me-2"></i>Entwickler</h6>
+                        <p class="text-muted small mb-0">
+                            Entwickelt von Studierenden der <strong>DHBW Heilbronn</strong>
+                            im Rahmen des Moduls <em>Verteilte Systeme</em>, Sommersemester 2026.
+                            Das Projekt dient ausschließlich Lehr- und Demonstrationszwecken.
+                            Alle dargestellten Daten sind fiktiv.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="auth.js"></script>
+<script>
+    if (AUTH.istEingeloggt()) {
+        window.location.href = AUTH.istAdmin() ? 'admin/index.html' : 'user/index.html';
+    }
+
+    // Kein Konto vorhanden → direkt Registrieren anzeigen
+    if (!AUTH.hatNutzer()) zeigeRegister();
+
+    function zeigeLogin() {
+        document.getElementById('section-login').classList.remove('d-none');
+        document.getElementById('section-register').classList.add('d-none');
+        document.getElementById('tab-anmelden').className = 'btn btn-sm flex-fill btn-primary';
+        document.getElementById('tab-registrieren').className = 'btn btn-sm flex-fill btn-outline-secondary';
+    }
+
+    function zeigeRegister() {
+        document.getElementById('section-login').classList.add('d-none');
+        document.getElementById('section-register').classList.remove('d-none');
+        document.getElementById('tab-anmelden').className = 'btn btn-sm flex-fill btn-outline-secondary';
+        document.getElementById('tab-registrieren').className = 'btn btn-sm flex-fill btn-primary';
+        if (!AUTH.hatNutzer()) {
+            document.getElementById('register-erstadmin').classList.remove('d-none');
+        }
+    }
+
+    function anmelden(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const fehler   = document.getElementById('login-fehler');
+        fehler.classList.add('d-none');
+
+        const session = AUTH.login(username, password);
+        if (!session) {
+            fehler.textContent = 'Benutzername oder Passwort ungültig.';
+            fehler.classList.remove('d-none');
+            return;
+        }
+        window.location.href = session.rolle === 'admin' ? 'admin/index.html' : 'user/index.html';
+    }
+
+    function alsGastFortfahren() {
+        AUTH.logout();
+        window.location.href = 'user/index.html';
+    }
+
+    function registrieren(event) {
+        event.preventDefault();
+        const name     = document.getElementById('reg-name').value.trim();
+        const username = document.getElementById('reg-username').value.trim().toLowerCase();
+        const pw       = document.getElementById('reg-password').value;
+        const pw2      = document.getElementById('reg-password2').value;
+        const fehler   = document.getElementById('register-fehler');
+        fehler.classList.add('d-none');
+
+        if (pw !== pw2) {
+            fehler.textContent = 'Passwörter stimmen nicht überein.';
+            fehler.classList.remove('d-none');
+            return;
+        }
+        if (pw.length < 4) {
+            fehler.textContent = 'Passwort muss mindestens 4 Zeichen haben.';
+            fehler.classList.remove('d-none');
+            return;
+        }
+        if (!/^[a-z0-9_]+$/.test(username)) {
+            fehler.textContent = 'Benutzername darf nur Kleinbuchstaben, Zahlen und _ enthalten.';
+            fehler.classList.remove('d-none');
+            return;
+        }
+
+        const result = AUTH.register(username, name, pw);
+        if (result.error) {
+            fehler.textContent = result.error;
+            fehler.classList.remove('d-none');
+            return;
+        }
+
+        const session = AUTH.login(username, pw);
+        window.location.href = session.rolle === 'admin' ? 'admin/index.html' : 'user/index.html';
+    }
+</script>
+
+</body>
+</html>

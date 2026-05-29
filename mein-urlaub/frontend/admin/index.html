@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Urlaub - Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../shared.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-urlaub navbar-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-lock"></i> Mein Urlaub - Admin</a>
+        <div class="d-flex gap-2 align-items-center">
+            <button id="theme-toggle" class="btn btn-outline-light btn-sm" title="Design wechseln">
+                <i class="bi bi-moon-stars" id="theme-icon"></i>
+            </button>
+            <a href="../user/index.html?from=admin" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-eye"></i> User-Ansicht
+            </a>
+            <a href="../login.html" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-house"></i> Startseite
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="admin-header">
+    <div class="container">
+        <h1><i class="bi bi-gear-fill"></i> Administration</h1>
+        <p class="mb-0 opacity-75">Verwaltung aller Microservices · CRUD Operationen</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+
+    <ul class="nav nav-tabs mb-4 flex-wrap" id="tabs">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-dashboard" onclick="dashboardLaden()"><i class="bi bi-speedometer2"></i> Dashboard</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-status" onclick="statusLaden()"><i class="bi bi-hdd-network"></i> Server-Status</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-hotels" onclick="hotelsLaden()"><i class="bi bi-building"></i> Hotels</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-fluege" onclick="fluegeLaden()"><i class="bi bi-airplane"></i> Flüge</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-mietwagen" onclick="mietwagenLaden()"><i class="bi bi-car-front"></i> Mietwagen</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-bewertungen" onclick="bewertungenLaden()"><i class="bi bi-star"></i> Bewertungen</button></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div class="tab-pane fade show active" id="tab-dashboard">
+            <h3 class="mb-4">Übersicht</h3>
+            <div class="row g-4" id="dashboard-cards">
+                <div class="col-12 text-center"><div class="spinner-border text-primary"></div></div>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5><i class="bi bi-trophy text-warning"></i> Top-Hotels nach Bewertung</h5>
+                            <ol class="list-group list-group-numbered list-group-flush mt-3" id="top-hotels">
+                                <li class="list-group-item text-muted">Wird geladen...</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5><i class="bi bi-clock-history" style="color: var(--urlaub-primary)"></i> Neueste Bewertungen</h5>
+                            <ul class="list-group list-group-flush mt-3" id="neueste-bewertungen">
+                                <li class="list-group-item text-muted">Wird geladen...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-status">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0"><i class="bi bi-hdd-network"></i> Server-Status</h3>
+                <button class="btn btn-primary" onclick="statusLaden()">
+                    <i class="bi bi-arrow-clockwise"></i> Neu prüfen
+                </button>
+            </div>
+            <p class="text-muted">Die folgenden Microservices werden geprüft. Antwortzeit und Anzahl der Datensätze werden bei jeder Prüfung live abgefragt.</p>
+            <div class="row g-4" id="status-cards"></div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="mb-3"><i class="bi bi-info-circle"></i> Gesamtstatus</h5>
+                    <div id="status-gesamt" class="alert alert-secondary mb-0">Klicke auf "Neu prüfen" zum Starten</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-hotels">
+            <div class="d-flex justify-content-between mb-3">
+                <h3>Hotels verwalten</h3>
+                <button class="btn btn-success" onclick="hotelNeu()"><i class="bi bi-plus-lg"></i> Neues Hotel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="sortierbar" onclick="sortiereHotels('name')">Name<span class="sort-pfeil" id="sort-hotels-name">⇅</span></th>
+                            <th class="sortierbar" onclick="sortiereHotels('stadt')">Stadt<span class="sort-pfeil" id="sort-hotels-stadt">⇅</span></th>
+                            <th>Land</th>
+                            <th class="sortierbar" onclick="sortiereHotels('sterne')">Sterne<span class="sort-pfeil" id="sort-hotels-sterne">⇅</span></th>
+                            <th class="sortierbar" onclick="sortiereHotels('preisProNacht')">Preis/Nacht<span class="sort-pfeil" id="sort-hotels-preisProNacht">⇅</span></th>
+                            <th class="tabelle-actions">Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hotels-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-fluege">
+            <div class="d-flex justify-content-between mb-3">
+                <h3>Flüge verwalten</h3>
+                <button class="btn btn-success" onclick="flugNeu()"><i class="bi bi-plus-lg"></i> Neuer Flug</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="sortierbar" onclick="sortiereFluege('flugnummer')">Flugnr.<span class="sort-pfeil" id="sort-fluege-flugnummer">⇅</span></th>
+                            <th class="sortierbar" onclick="sortiereFluege('airline')">Airline<span class="sort-pfeil" id="sort-fluege-airline">⇅</span></th>
+                            <th>Von</th>
+                            <th>Nach</th>
+                            <th class="sortierbar" onclick="sortiereFluege('abflugzeit')">Abflug<span class="sort-pfeil" id="sort-fluege-abflugzeit">⇅</span></th>
+                            <th class="sortierbar" onclick="sortiereFluege('preis')">Preis<span class="sort-pfeil" id="sort-fluege-preis">⇅</span></th>
+                            <th class="tabelle-actions">Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fluege-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-mietwagen">
+            <div class="d-flex justify-content-between mb-3">
+                <h3>Mietwagen verwalten</h3>
+                <button class="btn btn-success" onclick="mietwagenNeu()"><i class="bi bi-plus-lg"></i> Neuer Mietwagen</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="sortierbar" onclick="sortiereMietwagen('marke')">Marke<span class="sort-pfeil" id="sort-mietwagen-marke">⇅</span></th>
+                            <th>Modell</th>
+                            <th class="sortierbar" onclick="sortiereMietwagen('kategorie')">Kategorie<span class="sort-pfeil" id="sort-mietwagen-kategorie">⇅</span></th>
+                            <th>Standort</th>
+                            <th class="sortierbar" onclick="sortiereMietwagen('preisProTag')">Preis/Tag<span class="sort-pfeil" id="sort-mietwagen-preisProTag">⇅</span></th>
+                            <th class="tabelle-actions">Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mietwagen-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-bewertungen">
+            <div class="d-flex justify-content-between mb-3">
+                <h3>Bewertungen verwalten</h3>
+                <button class="btn btn-success" onclick="bewertungNeu()"><i class="bi bi-plus-lg"></i> Neue Bewertung</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="sortierbar" onclick="sortiereBewertungen('hotelName')">Hotel<span class="sort-pfeil" id="sort-bewertungen-hotelName">⇅</span></th>
+                            <th>Autor</th>
+                            <th class="sortierbar" onclick="sortiereBewertungen('sterne')">Sterne<span class="sort-pfeil" id="sort-bewertungen-sterne">⇅</span></th>
+                            <th>Kommentar</th>
+                            <th class="sortierbar" onclick="sortiereBewertungen('datum')">Datum<span class="sort-pfeil" id="sort-bewertungen-datum">⇅</span></th>
+                            <th class="tabelle-actions">Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bewertungen-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Hotel-Modal mit erweiterten Feldern -->
+<div class="modal fade" id="modal-hotel" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-building"></i> <span id="hotel-modal-titel">Hotel</span></h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hotel-id">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#hotel-modal-basis">Basis</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#hotel-modal-detail">Details</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#hotel-modal-bilder">Bilder & Highlights</button></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="hotel-modal-basis">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Name *</label><input type="text" class="form-control" id="hotel-name" required></div>
+                            <div class="col-md-6"><label class="form-label">Stadt *</label><input type="text" class="form-control" id="hotel-stadt" required></div>
+                            <div class="col-md-6"><label class="form-label">Land *</label><input type="text" class="form-control" id="hotel-land" required></div>
+                            <div class="col-md-3"><label class="form-label">Sterne (1-5) *</label><input type="number" class="form-control" id="hotel-sterne" min="1" max="5" required></div>
+                            <div class="col-md-3"><label class="form-label">Preis/Nacht (€) *</label><input type="number" class="form-control" id="hotel-preis" step="0.01" min="0" required></div>
+                            <div class="col-12"><label class="form-label">Kurzbeschreibung *</label><textarea class="form-control" id="hotel-beschreibung" rows="2" required></textarea></div>
+                            <div class="col-12"><label class="form-label">Ausstattung (Komma-getrennt)</label><input type="text" class="form-control" id="hotel-ausstattung" placeholder="WLAN, Pool, Spa"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="hotel-modal-detail">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Lange Beschreibung</label>
+                                <textarea class="form-control" id="hotel-langBeschreibung" rows="5" placeholder="Ausführliche Beschreibung für die Detail-Ansicht..."></textarea>
+                            </div>
+                            <div class="col-md-12"><label class="form-label">Adresse</label><input type="text" class="form-control" id="hotel-adresse" placeholder="Straße, PLZ Ort"></div>
+                            <div class="col-md-12"><label class="form-label">Webseite</label><input type="url" class="form-control" id="hotel-webseite" placeholder="https://..."></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="hotel-modal-bilder">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Bilder-URLs (eine URL pro Zeile)</label>
+                                <textarea class="form-control" id="hotel-bilder" rows="5" placeholder="https://example.com/bild1.jpg&#10;https://example.com/bild2.jpg"></textarea>
+                                <small class="text-muted">Diese Bilder werden in der Detail-Ansicht als Galerie angezeigt.</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Highlights (eine pro Zeile)</label>
+                                <textarea class="form-control" id="hotel-highlights" rows="5" placeholder="Direkter Strandzugang&#10;Spa-Bereich&#10;Familienfreundlich"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Hauptbild-URL (Legacy, optional)</label>
+                                <input type="text" class="form-control" id="hotel-bildUrl" placeholder="Nur falls noch keine Bilder oben">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="hotel-fehler" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button class="btn btn-primary" onclick="hotelSpeichern()"><i class="bi bi-check-lg"></i> Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-flug" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-airplane"></i> <span id="flug-modal-titel">Flug</span></h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="flug-id">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Flugnummer *</label><input type="text" class="form-control" id="flug-nummer" required></div>
+                    <div class="col-md-6"><label class="form-label">Airline *</label><input type="text" class="form-control" id="flug-airline" required></div>
+                    <div class="col-md-6"><label class="form-label">Abflughafen *</label><input type="text" class="form-control" id="flug-abflug" required></div>
+                    <div class="col-md-6"><label class="form-label">Zielflughafen *</label><input type="text" class="form-control" id="flug-ziel" required></div>
+                    <div class="col-md-6"><label class="form-label">Abflugzeit *</label><input type="datetime-local" class="form-control" id="flug-abflugzeit" required></div>
+                    <div class="col-md-6"><label class="form-label">Ankunftszeit *</label><input type="datetime-local" class="form-control" id="flug-ankunft" required></div>
+                    <div class="col-md-4"><label class="form-label">Preis (€) *</label><input type="number" class="form-control" id="flug-preis" step="0.01" min="0" required></div>
+                    <div class="col-md-4"><label class="form-label">Klasse</label><select class="form-select" id="flug-klasse"><option>Economy</option><option>Business</option><option>First</option></select></div>
+                    <div class="col-md-4"><label class="form-label">Freie Plätze</label><input type="number" class="form-control" id="flug-plaetze" min="0"></div>
+                </div>
+                <div id="flug-fehler" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button class="btn btn-primary" onclick="flugSpeichern()"><i class="bi bi-check-lg"></i> Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mietwagen-Modal mit erweiterten Feldern -->
+<div class="modal fade" id="modal-mietwagen" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-car-front"></i> <span id="mietwagen-modal-titel">Mietwagen</span></h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="mietwagen-id">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#mw-modal-basis">Basis</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#mw-modal-detail">Details & Konditionen</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#mw-modal-bilder">Bilder</button></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="mw-modal-basis">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Marke *</label><input type="text" class="form-control" id="mw-marke" required></div>
+                            <div class="col-md-6"><label class="form-label">Modell *</label><input type="text" class="form-control" id="mw-modell" required></div>
+                            <div class="col-md-6"><label class="form-label">Kategorie *</label><select class="form-select" id="mw-kategorie"><option>Kleinwagen</option><option>Mittelklasse</option><option>Oberklasse</option><option>SUV</option><option>Van</option></select></div>
+                            <div class="col-md-6"><label class="form-label">Standort *</label><input type="text" class="form-control" id="mw-standort" required></div>
+                            <div class="col-md-4"><label class="form-label">Preis/Tag (€) *</label><input type="number" class="form-control" id="mw-preis" step="0.01" min="0" required></div>
+                            <div class="col-md-4"><label class="form-label">Getriebe</label><select class="form-select" id="mw-getriebe"><option>Manuell</option><option>Automatik</option></select></div>
+                            <div class="col-md-4"><label class="form-label">Kraftstoff</label><select class="form-select" id="mw-kraftstoff"><option>Benzin</option><option>Diesel</option><option>Elektro</option><option>Hybrid</option></select></div>
+                            <div class="col-md-6"><label class="form-label">Sitzplätze</label><input type="number" class="form-control" id="mw-sitze" value="5" min="1" max="9"></div>
+                            <div class="col-md-6"><label class="form-label">Verfügbar</label><select class="form-select" id="mw-verfuegbar"><option value="true">Ja</option><option value="false">Nein</option></select></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="mw-modal-detail">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Lange Beschreibung</label>
+                                <textarea class="form-control" id="mw-langBeschreibung" rows="4"></textarea>
+                            </div>
+                            <div class="col-md-4"><label class="form-label">Freie km/Tag</label><input type="number" class="form-control" id="mw-kilometerProTag" min="0"></div>
+                            <div class="col-md-4"><label class="form-label">Mindestalter</label><input type="number" class="form-control" id="mw-mindestalter" min="18" max="99"></div>
+                            <div class="col-md-4"><label class="form-label">Kaution (€)</label><input type="number" class="form-control" id="mw-kaution" min="0"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="mw-modal-bilder">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Bilder-URLs (eine pro Zeile)</label>
+                                <textarea class="form-control" id="mw-bilder" rows="5" placeholder="https://example.com/auto1.jpg&#10;https://example.com/auto2.jpg"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Hauptbild-URL (Legacy, optional)</label>
+                                <input type="text" class="form-control" id="mw-bildUrl">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="mietwagen-fehler" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button class="btn btn-primary" onclick="mietwagenSpeichern()"><i class="bi bi-check-lg"></i> Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-bewertung" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-star"></i> <span id="bewertung-modal-titel">Bewertung</span></h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="bewertung-id">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Hotel auswählen *</label>
+                        <select class="form-select" id="b-hotel-select" required>
+                            <option value="">-- Bitte Hotel wählen --</option>
+                        </select>
+                    </div>
+                    <div class="col-12"><label class="form-label">Autor *</label><input type="text" class="form-control" id="b-autor" required></div>
+                    <div class="col-12"><label class="form-label">Sterne (1-5) *</label><input type="number" class="form-control" id="b-sterne" min="1" max="5" required></div>
+                    <div class="col-12"><label class="form-label">Kommentar *</label><textarea class="form-control" id="b-kommentar" rows="3" required></textarea></div>
+                </div>
+                <div id="bewertung-fehler" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button class="btn btn-primary" onclick="bewertungSpeichern()"><i class="bi bi-check-lg"></i> Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-confirm" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> Bestätigung</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="confirm-text">Möchten Sie diesen Vorgang wirklich ausführen?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button class="btn btn-danger" id="confirm-ok-btn"><i class="bi bi-trash"></i> Löschen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999">
+    <div id="toast" class="toast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto" id="toast-titel">Info</strong>
+            <button class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="toast-body"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
