@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Mein Urlaub — Verteiltes System
 
 Semesterprojekt DHBW Heilbronn · Modul: Verteilte Systeme
