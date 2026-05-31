@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Mein Urlaub — Verteiltes System
 
 Semesterprojekt DHBW Heilbronn · Modul: Verteilte Systeme
@@ -177,42 +176,6 @@ GET /api/bewertungen/hotel/:hotelId   → Alle Bewertungen für ein bestimmtes H
 
 ---
 
-## Deployment auf GitHub Pages (Frontend)
-
-Da das Frontend rein statisch ist (HTML + CSS + JS), kann es direkt auf GitHub Pages gehostet werden.
-
-1. Repository auf GitHub pushen
-2. In den Repository-Einstellungen unter **Pages** → Branch `main`, Ordner `/frontend` (oder `/` mit korrekten Pfaden) wählen
-3. Die Backend-URLs in `frontend/user/app.js` und `frontend/admin/app.js` auf die echten Server-Adressen anpassen:
-
-```javascript
-const API = {
-    hotels:      'https://dein-hotel-server.example.com/api/hotels',
-    fluege:      'https://dein-flug-server.example.com/api/fluege',
-    mietwagen:   'https://dein-mietwagen-server.example.com/api/mietwagen',
-    bewertungen: 'https://dein-bewertungs-server.example.com/api/bewertungen'
-};
-```
-
-> ⚠️ Die Backends müssen HTTPS unterstützen (Mixed-Content-Blocker), wenn das Frontend über HTTPS ausgeliefert wird.
-
-## Deployment Backend auf Heroku
-
-Details in `docs/04_Hosting-Vorschlag.docx`. Kurzfassung:
-
-```bash
-cd backend/hotel-server
-heroku login
-git init && git add . && git commit -m "Initial"
-heroku create mein-urlaub-hotels
-heroku config:set MONGODB_URI="mongodb+srv://..."
-git push heroku main
-```
-
-Gleichen Ablauf für die anderen 3 Services wiederholen.
-
----
-
 ## Technologie-Stack
 
 | Bereich | Technologie |
@@ -227,6 +190,3 @@ Gleichen Ablauf für die anderen 3 Services wiederholen.
 ---
 
 *DHBW Heilbronn · Verteilte Systeme · 2026*
-=======
-# Verteilte-Systeme-DHBW
->>>>>>> e83487ee3b9bf626d72c5bf5685e4d2acf4f8231
