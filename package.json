@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Verteiltes System 'Mein Urlaub' - DHBW Heilbronn Gruppenarbeit",
   "scripts": {
+    "postinstall": "npm install --prefix backend/bewertungs-server && npm install --prefix backend/hotel-server && npm install --prefix backend/flugverbindung-server && npm install --prefix backend/mietwagen-server",
     "install:all": "npm install --prefix backend/bewertungs-server && npm install --prefix backend/hotel-server && npm install --prefix backend/flugverbindung-server && npm install --prefix backend/mietwagen-server && npm install",
     "seed:all": "node backend/bewertungs-server/seed.js && node backend/hotel-server/seed.js && node backend/flugverbindung-server/seed.js && node backend/mietwagen-server/seed.js",
     "start:bewertungen": "node backend/bewertungs-server/server.js",

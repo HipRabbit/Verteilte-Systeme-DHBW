@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Mein Urlaub — Verteiltes System
 
 Semesterprojekt DHBW Heilbronn · Modul: Verteilte Systeme
@@ -226,3 +227,6 @@ Gleichen Ablauf für die anderen 3 Services wiederholen.
 ---
 
 *DHBW Heilbronn · Verteilte Systeme · 2026*
+=======
+# Verteilte-Systeme-DHBW
+>>>>>>> e83487ee3b9bf626d72c5bf5685e4d2acf4f8231
